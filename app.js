@@ -12,6 +12,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const employees = [];
+
 // Write code to use inquirer to gather information about the development team members,
 
 const {
@@ -42,6 +44,20 @@ function main() {
           });
         } else {
           // write file
+          employees.push(new Manager(manager.name, manager.id, manager.email, manager.officeNumber));
+          employees.push(new Engineer(engineer.name, engineer.id, engineer.email, engineer.github));
+          employees.push(new Intern(intern.name, intern.id, intern.email, intern.school));
+          
+          const peoples = render(employees);
+          fs.writeFile("main.html", peoples, function(err) {
+            if (err) {
+              throw err;
+            }
+            console.log("Succes wrote to file");
+          })
+          // fs.writeFile("main.html", render(employees), =>  {
+          //   console.log(employees);
+          // })
         }
       });
 }
